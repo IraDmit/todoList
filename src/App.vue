@@ -1,35 +1,30 @@
 <template>
   <div id="app">
     <h1>ToDo List</h1>
-    <div class="create" @click="createItem">+</div>
-    <ul>
-      <app-list-item
-        v-for="(item, idx) in items"
-        :key="idx"
-        :item="item"
-        :idx="idx"
-        @changeItem="changeItem"
-      />
-    </ul>
+    <div class="createList" @click="createList">Create new list</div>
+    <input type="text" v-model="listName" />
+    <app-list v-for="(list, idx) in lists" :key="idx" :list="list" :idx="idx" @changeList="changeList" />
   </div>
 </template>
 
 <script>
-import appListItem from "./components/app-listItem.vue";
+import AppList from "./components/app-list.vue";
 export default {
-  components: { appListItem },
+  components: { AppList },
   data() {
     return {
-      items: [],
+      lists: localStorage.lists ? JSON.parse(localStorage.lists) : [],
+      listName: "",
     };
   },
   methods: {
-    createItem() {
-      this.items.push({ checked: false, purpose: "" });
+    createList() {
+      this.lists.push({ name: this.listName, items: [] });
     },
-    changeItem(obj, idx) {
-      this.items[idx] = obj;
-    },
+    changeList(arr, idx){
+      this.lists[idx].items = arr
+      localStorage.lists = JSON.stringify(this.lists)
+    }
   },
 };
 </script>
@@ -47,9 +42,4 @@ export default {
 }
 
 // color: #42b983;
-
-ul {
-  max-width: 800px;
-  width: 100%;
-}
 </style>
