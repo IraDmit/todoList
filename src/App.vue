@@ -1,30 +1,57 @@
 <template>
   <div id="app">
+    <vue-inline-calendar @select-date="changeDate($event)" />
     <h1>ToDo List</h1>
     <div class="createList" @click="createList">Create new list</div>
     <input type="text" v-model="listName" />
-    <app-list v-for="(list, idx) in lists" :key="idx" :list="list" :idx="idx" @changeList="changeList" />
+    <template v-for="(list, key, idx) in lists">
+      <app-list v-if="'data-' + selectedDate == key && selectedDate"
+        :list="lists['data-' + selectedDate]"
+        :keyObj="'data-' + selectedDate"
+        @changeList="changeList"
+        :key="idx"
+      />
+    </template>
   </div>
 </template>
 
 <script>
 import AppList from "./components/app-list.vue";
+import VueInlineCalendar from "vue2-inline-calendar";
 export default {
-  components: { AppList },
+  components: { AppList, VueInlineCalendar },
   data() {
     return {
-      lists: localStorage.lists ? JSON.parse(localStorage.lists) : [],
+      // test: {
+      //   '14': {
+      //     name: asdasd
+      //     items: [{}]
+      //   }
+      // }
+      lists: localStorage.lists ? JSON.parse(localStorage.lists) : {},
       listName: "",
+      selectedDate: new Date().getDate(),
     };
   },
   methods: {
     createList() {
-      this.lists.push({ name: this.listName, items: [] });
+      this.$set(
+        this.lists,
+        "data-" + this.selectedDate,
+        !!{
+          name: this.listName,
+          items: [],
+        }
+      );
     },
-    changeList(arr, idx){
-      this.lists[idx].items = arr
-      localStorage.lists = JSON.stringify(this.lists)
-    }
+    changeList(arr, key) {
+      console.log(arr);
+      this.lists[key].items = arr;
+      localStorage.lists = JSON.stringify(this.lists);
+    },
+    changeDate(ev) {
+      this.selectedDate = ev.getDate();
+    },
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!!list">
     <h3>{{list.name}}</h3>
     <div class="create" @click="createItem">+</div>
     <ul>
@@ -10,9 +10,8 @@
         :idx="idx"
         @changeItem="changeItem"
         @deleteItem="deleteItem"
-      />
+      ></app-list-item>
     </ul>
-    
     <div class="progress" :style="{ '--progWidth': progress + '%' }"></div>
   </div>
 </template>
@@ -26,16 +25,20 @@ export default {
         type: Object,
         default: ()=>{}
     },
-    idx:{
-        type: Number,
-        default:()=>{}
+    keyObj:{
+      type: String,
+      default: ()=>{}
     }
   },
   data() {
     return {
-      items: this.list.items ? this.list.items : [],
+      items: this.list?.items ? this.list.items : [],
       progress: 0,
     };
+  },
+  mounted() {
+
+    if(this.list) this.countProgress();
   },
   methods: {
     createItem() {
@@ -43,12 +46,12 @@ export default {
     },
     changeItem(obj, idx) {
       this.items[idx] = obj;
-      this.$emit('changeList', this.items, this.idx)
+      this.$emit('changeList', this.items, this.keyObj)
       this.countProgress();
     },
     deleteItem(idx) {
       this.items.splice(idx, 1);
-      this.$emit('changeList', this.items, this.idx)
+      this.$emit('changeList', this.items, this.keyObj)
       this.countProgress();
     },
     countProgress() {
@@ -60,9 +63,6 @@ export default {
       const selected = count;
       this.progress = (selected * 100) / length;
     },
-  },
-  mounted() {
-    this.countProgress();
   },
 };
 </script>
