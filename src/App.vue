@@ -1,17 +1,25 @@
 <template>
   <div id="app">
-    <vue-inline-calendar @select-date="changeDate($event)" />
     <h1>ToDo List</h1>
-    <div class="createList" @click="createList">Create new list</div>
-    <input type="text" v-model="listName" />
-    <template v-for="(list, key, idx) in lists">
-      <app-list v-if="'data-' + selectedDate == key && selectedDate"
-        :list="lists['data-' + selectedDate]"
-        :keyObj="'data-' + selectedDate"
-        @changeList="changeList"
-        :key="idx"
-      />
-    </template>
+    <vue-inline-calendar
+      class="vue-inline-calendar"
+      @select-date="changeDate($event)"
+    />
+    <div class="container">
+      <div class="createList" title="Create a new list">
+        <input type="text" v-model="listName" />
+        <div class="icon-plus" @click="createList"></div>
+      </div>
+      <template v-for="(list, key, idx) in lists">
+        <app-list
+          v-if="'data-' + selectedDate == key && selectedDate"
+          :list="lists['data-' + selectedDate]"
+          :keyObj="'data-' + selectedDate"
+          @changeList="changeList"
+          :key="idx"
+        />
+      </template>
+    </div>
   </div>
 </template>
 
@@ -35,17 +43,12 @@ export default {
   },
   methods: {
     createList() {
-      this.$set(
-        this.lists,
-        "data-" + this.selectedDate,
-        !!{
-          name: this.listName,
-          items: [],
-        }
-      );
+      this.$set(this.lists, "data-" + this.selectedDate, {
+        name: this.listName,
+        items: [],
+      });
     },
     changeList(arr, key) {
-      console.log(arr);
       this.lists[key].items = arr;
       localStorage.lists = JSON.stringify(this.lists);
     },
@@ -63,10 +66,18 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
+  overflow: hidden;
+  .vue-inline-calendar {
+    overflow-x: scroll;
+    width: 100%;
+  }
 }
 
+.createList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 // color: #42b983;
 </style>

@@ -1,7 +1,10 @@
 <template>
-  <div v-if="!!list">
-    <h3>{{list.name}}</h3>
-    <div class="create" @click="createItem">+</div>
+  <div class="list" v-if="!!list">
+    <h3 class="name">{{ list.name }}</h3>
+    <div class="create">
+      <p>add a task</p>
+      <div class="icon-plus btn" @click="createItem"></div>
+    </div>
     <ul>
       <app-list-item
         v-for="(item, idx) in items"
@@ -17,28 +20,30 @@
 </template>
 
 <script>
-import appListItem from './app-listItem.vue';
+import appListItem from "./app-listItem.vue";
 export default {
   components: { appListItem },
   props: {
     list: {
-        type: Object,
-        default: ()=>{}
+      type: [Object, Boolean],
+      default: () => {},
     },
-    keyObj:{
+    keyObj: {
       type: String,
-      default: ()=>{}
-    }
+      default: () => {},
+    },
   },
   data() {
     return {
-      items: this.list?.items ? this.list.items : [],
+      items:
+        this.list?.items && typeof this.list === "object"
+          ? this.list.items
+          : [],
       progress: 0,
     };
   },
   mounted() {
-
-    if(this.list) this.countProgress();
+    if (this.list) this.countProgress();
   },
   methods: {
     createItem() {
@@ -46,12 +51,12 @@ export default {
     },
     changeItem(obj, idx) {
       this.items[idx] = obj;
-      this.$emit('changeList', this.items, this.keyObj)
+      this.$emit("changeList", this.items, this.keyObj);
       this.countProgress();
     },
     deleteItem(idx) {
       this.items.splice(idx, 1);
-      this.$emit('changeList', this.items, this.keyObj)
+      this.$emit("changeList", this.items, this.keyObj);
       this.countProgress();
     },
     countProgress() {
@@ -68,9 +73,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-ul {
+.list:not(:last-of-type) {
+  border-bottom: 2px solid #ebebeb;
+}
+.list {
   max-width: 800px;
   width: 100%;
+  
+}
+.create {
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.create {
+  background-color: #ebebeb;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid #000;
+  cursor: pointer;
+  margin-left: auto;
+}
+ul {
+  padding: 0;
 }
 
 .progress {
@@ -78,7 +104,9 @@ ul {
   height: 15px;
   border: 1px solid #000;
   position: relative;
+
   &::before {
+    transition-duration: 0.3s;
     content: "";
     position: absolute;
     width: var(--progWidth);

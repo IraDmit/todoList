@@ -5,6 +5,7 @@ import store from './store'
 
 //style
 import './assets/style/global.scss'
+import 'bootstrap/dist/css/bootstrap.css';
 
 Vue.config.productionTip = false
 

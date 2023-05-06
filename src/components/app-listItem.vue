@@ -1,11 +1,13 @@
 <template>
-  <li>
-    <div class="checkbox" @click="isChecked = !isChecked">
-      {{ item.checked }}
-    </div>
+  <li :class="{ green: isChecked, red: !isChecked }">
+    <div
+      class="checkbox"
+      @click="check"
+      :class="{ 'icon-ok': isChecked, 'icon-cancel': !isChecked }"
+    ></div>
     <input type="text" v-model="text" class="todo" />
-    <div @click="changeItem" class="confirm">подтвердить</div>
-    <div @click="deleteItem" class="delete">х</div>
+    <div @click="changeItem" class="confirm icon-plus"></div>
+    <div @click="deleteItem" class="delete icon-trash"></div>
   </li>
 </template>
 
@@ -38,6 +40,9 @@ export default {
     deleteItem() {
       this.$emit("deleteItem", this.idx);
     },
+    check() {
+      this.isChecked = !this.isChecked;
+    },
   },
 };
 </script>
@@ -49,17 +54,31 @@ li {
   background-color: #ebebeb;
   padding: 10px 7px;
   border-radius: 8px;
+  align-items: center;
   .checkbox {
-    border: 1px solid #000;
-    padding: 5px;
+    padding: 1px;
     margin-right: 10px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .todo {
     padding: 5px;
     border: none;
     background: none;
     width: 100%;
+  }
+  .confirm,
+  .delete {
+    cursor: pointer;
+  }
+  &.red {
+    background-color: rgba(#e34234, 0.6);
+    text-decoration: line-through;
+  }
+  &.green {
+    background-color: rgba(#51cf66, 0.6);
   }
 }
 </style>
