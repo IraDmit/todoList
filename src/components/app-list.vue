@@ -1,9 +1,11 @@
 <template>
+<div>
+
   <div class="list" v-if="!!list">
     <h3 class="name">{{ list.name }}</h3>
-    <div class="create">
+    <div class="create" @click="createItem">
       <p>add a task</p>
-      <div class="icon-plus btn" @click="createItem"></div>
+      <div class="icon-plus btn" ></div>
     </div>
     <ul>
       <app-list-item
@@ -17,6 +19,8 @@
     </ul>
     <div class="progress" :style="{ '--progWidth': progress + '%' }"></div>
   </div>
+  
+</div>
 </template>
 
 <script>
@@ -68,6 +72,7 @@ export default {
       const selected = count;
       this.progress = (selected * 100) / length;
     },
+
   },
 };
 </script>
@@ -79,7 +84,9 @@ export default {
 .list {
   max-width: 800px;
   width: 100%;
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .create {
   display: inline-flex;

@@ -7,7 +7,7 @@
     ></div>
     <input type="text" v-model="text" class="todo" />
     <div @click="changeItem" class="confirm icon-plus"></div>
-    <div @click="deleteItem" class="delete icon-trash"></div>
+    <div @click="deleteItem" class="delete icon-trash-empty"></div>
   </li>
 </template>
 
@@ -55,6 +55,7 @@ li {
   padding: 10px 7px;
   border-radius: 8px;
   align-items: center;
+  
   .checkbox {
     padding: 1px;
     margin-right: 10px;

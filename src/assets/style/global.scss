@@ -1,7 +1,14 @@
-@import 'normalize.css';
+@import "normalize.css";
 
-@import './fontello.css';
+@import "./fontello.css";
 
-*, *::before, *::after{
-    box-sizing: border-box;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.border {
+  border: 1px solid #0d6efd;
+  border-radius: 10px;
 }
