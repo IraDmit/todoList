@@ -119,12 +119,19 @@ export default {
         position: absolute;
         top: 20px;
         right: 10px;
+        padding: 10px;
       }
       .prev {
+        padding: 10px;
         position: absolute;
         top: 20px;
         left: 10px;
         transform: rotate(180deg);
+      }
+      .icon-right-open-outline{
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       .createList {
         display: flex;
