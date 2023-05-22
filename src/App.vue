@@ -1,32 +1,41 @@
 <template>
   <div id="app">
-    <h1 class="border ttl">ToDo List</h1>
-    <div class="container content">
-      <div class="left-col">
-        <vc-calendar v-model="test" @dayclick="onDayClick" />
-      </div>
-      <div class="right-col">
-        <div class="createList" title="Create a new list">
-          <input type="text" v-model="listName" />
-          <div class="icon-plus" @click="createList"></div>
+    <div class="container">
+      <h1 class="border ttl">ToDo List</h1>
+      <div class="content">
+        <div class="left-col">
+          <vc-date-picker
+            v-model="test"
+            @dayclick="onDayClick"
+            locale="en"
+            class="calendar"
+          />
         </div>
-        <div class="wrp" v-if="lists && lists[`data-${selectedDate}`]">
-          <template v-for="(list, key, idx) in lists">
-            <app-list
-              v-if="'data-' + selectedDate == key"
-              :list="lists['data-' + selectedDate]"
-              :keyObj="'data-' + selectedDate"
-              @changeList="changeList"
-              :key="idx"
-            />
-          </template>
-        </div>
-        <div v-else>There are no tasks for this day, create a to-do list!</div>
-        <div class="next btn btn-primary" @click="nextDay">
-          <div class="icon-right-open-outline"></div>
-        </div>
-        <div class="prev btn btn-primary" @click="prevDay">
-          <div class="icon-right-open-outline"></div>
+        <div class="right-col border">
+          <div class="createList" title="Create a new list">
+            <input type="text" v-model="listName" />
+            <div class="icon-plus" @click="createList"></div>
+          </div>
+          <div class="wrp" v-if="lists && lists[`data-${selectedDate}`]">
+            <template v-for="(list, key, idx) in lists">
+              <app-list
+                v-if="'data-' + selectedDate == key"
+                :list="lists['data-' + selectedDate]"
+                :keyObj="'data-' + selectedDate"
+                @changeList="changeList"
+                :key="idx"
+              />
+            </template>
+          </div>
+          <div v-else class="notice">
+            <p>There are no tasks for this day, create a to-do list!</p>
+          </div>
+          <div class="next btn btn-primary" @click="nextDay">
+            <div class="icon-right-open-outline"></div>
+          </div>
+          <div class="prev btn btn-primary" @click="prevDay">
+            <div class="icon-right-open-outline"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -77,6 +86,12 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  font-family: "Press Start 2P", cursive;
+  background-image: url("https://klike.net/uploads/posts/2022-10/1666595471_1.png");
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   .ttl {
     padding: 15px 20px;
     margin: 20px 0;
@@ -84,24 +99,29 @@ export default {
   .content {
     display: flex;
     justify-content: space-between;
+
     .left-col {
       max-width: 350px;
       width: 100%;
-      padding: 20px;
+      .calendar {
+        font-family: "Press Start 2P", cursive;
+        width: 100%;
+      }
     }
     .right-col {
-      max-width: calc(100% - 350px);
+      max-width: calc(100% - 370px);
       width: 100%;
       position: relative;
+      padding: 20px;
       .next {
         position: absolute;
-        top: 50%;
-        right: 30px;
+        top: 20px;
+        right: 10px;
       }
       .prev {
         position: absolute;
-        top: 50%;
-        left: 30px;
+        top: 20px;
+        left: 10px;
         transform: rotate(180deg);
       }
       .createList {
@@ -111,7 +131,33 @@ export default {
         input {
           max-width: 400px;
           width: 100%;
+          padding: 5px;
+          border-radius: 10px;
+          box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.137);
+          border: 1px solid #d8d8d8;
         }
+      }
+      .notice {
+        margin: 0 auto;
+        margin-top: 70px;
+        max-width: 620px;
+        width: 100%;
+      }
+    }
+    @media (max-width: 764px) {
+      display: flex;
+      flex-direction: column;
+      .left-col,
+      .right-col {
+        max-width: 100%;
+        width: 100%;
+      }
+      .right-col {
+        margin-top: 15px;
+      }
+      .createList {
+        max-width: 380px;
+        margin: 0 auto;
       }
     }
   }

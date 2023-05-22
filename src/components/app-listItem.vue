@@ -3,7 +3,7 @@
     <div
       class="checkbox"
       @click="check"
-      :class="{ 'icon-ok': isChecked, 'icon-cancel': !isChecked }"
+      :class="{ 'icon-ok': isChecked, 'icon-cancel-1': !isChecked }"
     ></div>
     <input type="text" v-model="text" class="todo" />
     <div @click="changeItem" class="confirm icon-plus"></div>
@@ -49,13 +49,16 @@ export default {
 
 <style lang="scss" scoped>
 li {
+  width: 100%;
   display: flex;
   margin-bottom: 15px;
   background-color: #ebebeb;
-  padding: 10px 7px;
+  padding: 7px 7px;
   border-radius: 8px;
   align-items: center;
-  
+  font-family: "Caveat", cursive;
+  font-weight: 400;
+  font-size: 22px;
   .checkbox {
     padding: 1px;
     margin-right: 10px;
@@ -69,6 +72,7 @@ li {
     border: none;
     background: none;
     width: 100%;
+    
   }
   .confirm,
   .delete {
@@ -76,10 +80,15 @@ li {
   }
   &.red {
     background-color: rgba(#e34234, 0.6);
-    text-decoration: line-through;
   }
   &.green {
     background-color: rgba(#51cf66, 0.6);
+    input {
+      text-decoration: line-through;
+    }
+  }
+  &:focus {
+    border: 2px solid #000;
   }
 }
 </style>
