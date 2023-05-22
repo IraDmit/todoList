@@ -92,9 +92,11 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
+    padding: 15px 0;
   .ttl {
     padding: 15px 20px;
     margin: 20px 0;
+    margin-top: 0;
   }
   .content {
     display: flex;
