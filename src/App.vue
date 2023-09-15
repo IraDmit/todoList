@@ -115,6 +115,7 @@ export default {
       width: 100%;
       position: relative;
       padding: 20px;
+      transition: 3s;
       .next {
         position: absolute;
         top: 20px;
