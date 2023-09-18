@@ -88,11 +88,11 @@ export default {
   color: #2c3e50;
   font-family: "Press Start 2P", cursive;
   background-image: url("https://klike.net/uploads/posts/2022-10/1666595471_1.png");
-  height: 100vh;
+  min-height: 100vh;
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-    padding: 15px 0;
+  padding: 15px 0;
   .ttl {
     padding: 15px 20px;
     margin: 20px 0;
@@ -115,7 +115,6 @@ export default {
       width: 100%;
       position: relative;
       padding: 20px;
-      transition: 3s;
       .next {
         position: absolute;
         top: 20px;
@@ -129,7 +128,7 @@ export default {
         left: 10px;
         transform: rotate(180deg);
       }
-      .icon-right-open-outline{
+      .icon-right-open-outline {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -152,6 +151,13 @@ export default {
         margin-top: 70px;
         max-width: 620px;
         width: 100%;
+      }
+    }
+    @media (max-width: 992px) {
+      .right-col {
+        .createList {
+          margin-top: 45px;
+        }
       }
     }
     @media (max-width: 764px) {
